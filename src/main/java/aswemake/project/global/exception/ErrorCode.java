@@ -4,11 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
+    REQUEST_VALID_FAIL(405, "REQEUST_VALID_FAIL", "Request 검증 실패, 에러 메시지 확인"),
 
-    REQUEST_VALID_FAIL(404, "REQEUST_VALID_FAIL", "Request 검증 실패, 에러 메시지 확인"),
     //MEMBER
     MEMBER_NOT_FOUND(404, "USER_NOT_FOUND", "회원을 찾을 수 없는 경우"),
-    MEMBER_PASSWORD_NOT_CORRECT(404, "MEMBER_PASSWORD_NOT_CORRECT", "비밀번호가 일치하지 않는 경우");
+    MEMBER_PASSWORD_NOT_CORRECT(405, "MEMBER_PASSWORD_NOT_CORRECT", "비밀번호가 일치하지 않는 경우"),
+    NOT_ADMIN_ACCESS_DENIED(403, "NOT_ADMIN_ACCESS_DENIED", "관리자 외 접근 거부"),
+
+    //PRODUCT
+    PRODUCT_NOT_FOUND(404, "PRODUCT_NOT_FOUND", "상품을 찾을 수 없습니다.");
 
     private final int status;
     private final String code;

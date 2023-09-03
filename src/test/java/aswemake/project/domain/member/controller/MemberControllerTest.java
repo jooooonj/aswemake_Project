@@ -1,6 +1,6 @@
 package aswemake.project.domain.member.controller;
-import aswemake.project.domain.member.entity.request.JoinMemberRequest;
-import aswemake.project.domain.member.entity.request.LoginMemberRequest;
+import aswemake.project.domain.member.entity.request.JoinMemberRequestDto;
+import aswemake.project.domain.member.entity.request.LoginMemberRequestDto;
 import aswemake.project.domain.member.service.MemberService;
 import aswemake.project.global.config.SecurityConfig;
 import aswemake.project.global.jwt.JwtAuthorizationFilter;
@@ -47,7 +47,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("회원가입 요청 실패 - 이메일에 @를 포함하지 않아서 실패")
     void join1() throws Exception{
-        JoinMemberRequest request = JoinMemberRequest.builder()
+        JoinMemberRequestDto request = JoinMemberRequestDto.builder()
                 .email("abcd1234").password("123456789").build();
 
         MvcResult result = mockMvc.perform(
@@ -66,7 +66,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("회원가입 요청 실패 - 비밀번호가 8자리 미만이라서 실패")
     void join2() throws Exception{
-        JoinMemberRequest request = JoinMemberRequest.builder()
+        JoinMemberRequestDto request = JoinMemberRequestDto.builder()
                 .email("abcd@1234").password("1234").build();
 
         MvcResult result = mockMvc.perform(
@@ -86,7 +86,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("회원가입 성공")
     void join3() throws Exception{
-        JoinMemberRequest request = JoinMemberRequest.builder()
+        JoinMemberRequestDto request = JoinMemberRequestDto.builder()
                 .email("abcd@1234").password("123456789").build();
 
         MvcResult result = mockMvc.perform(
@@ -99,13 +99,13 @@ class MemberControllerTest {
                 .andReturn();
 
 //        memberService의 join 메서드가 실제로 실행되는지
-        verify(memberService).join(any(JoinMemberRequest.class));
+        verify(memberService).join(any(JoinMemberRequestDto.class));
     }
 
     @Test
     @DisplayName("로그인 요청 실패 - 이메일에 @를 포함하지 않아서 실패")
     void login1() throws Exception{
-        LoginMemberRequest request = LoginMemberRequest.builder()
+        LoginMemberRequestDto request = LoginMemberRequestDto.builder()
                 .email("abcd1234").password("123456789").build();
 
         MvcResult result = mockMvc.perform(
@@ -125,7 +125,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("로그인 요청 실패 - 비밀번호가 8자리 미만이라서 실패")
     void login2() throws Exception{
-        LoginMemberRequest request = LoginMemberRequest.builder()
+        LoginMemberRequestDto request = LoginMemberRequestDto.builder()
                 .email("abcd@1234").password("1234").build();
 
         MvcResult result = mockMvc.perform(
@@ -146,14 +146,14 @@ class MemberControllerTest {
     @DisplayName("로그인 요청 성공.")
     void login() throws Exception {
         //given
-        LoginMemberRequest request = LoginMemberRequest.builder()
+        LoginMemberRequestDto request = LoginMemberRequestDto.builder()
                 .email("abcd@1234").password("123456789").build();
         JwtToken token = JwtToken.builder()
                 .accessToken("accessToken_test")
                 .build();
 
         //올바른 형식의 LoginMemberRequest를 받아 성공적으로 JwtToken 반환
-        given(memberService.login(any(LoginMemberRequest.class))).willReturn(token);
+        given(memberService.login(any(LoginMemberRequestDto.class))).willReturn(token);
 
         // When, then
         ResultActions result = mockMvc
