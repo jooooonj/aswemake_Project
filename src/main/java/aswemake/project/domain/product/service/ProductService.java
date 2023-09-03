@@ -27,4 +27,12 @@ public class ProductService {
         Product product = productRepository.save(Product.create(createProductRequestDto));
         return ProductResponseDto.of(product);
     }
+
+    @Transactional
+    public ProductResponseDto modify(Long productId,
+                                     ModifyProductPriceRequestDto modifyProductPriceRequestDto) {
+        Product product = findById(productId);
+        product.modifyPrice(modifyProductPriceRequestDto.getPrice());
+        return ProductResponseDto.of(product);
+    }
 }

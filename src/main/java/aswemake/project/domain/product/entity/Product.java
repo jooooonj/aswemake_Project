@@ -28,4 +28,7 @@ public class Product extends BaseEntity {
                 .build();
     }
 
+    public void modifyPrice(int price){
+        this.price = price;
+    }
 }
