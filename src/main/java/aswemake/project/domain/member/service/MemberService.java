@@ -1,8 +1,8 @@
 package aswemake.project.domain.member.service;
 
 import aswemake.project.domain.member.entity.Member;
-import aswemake.project.domain.member.entity.request.JoinMemberRequest;
-import aswemake.project.domain.member.entity.request.LoginMemberRequest;
+import aswemake.project.domain.member.entity.request.JoinMemberRequestDto;
+import aswemake.project.domain.member.entity.request.LoginMemberRequestDto;
 import aswemake.project.domain.member.exception.MemberNotFoundException;
 import aswemake.project.domain.member.exception.MemberPasswordNotCorrectException;
 import aswemake.project.domain.member.repository.MemberRepository;
@@ -29,19 +29,19 @@ public class MemberService {
     }
 
     @Transactional
-    public Long join(@Valid JoinMemberRequest joinMemberRequest){
+    public Long join(@Valid JoinMemberRequestDto joinMemberRequestDto){
         Member member = Member.builder()
-                .email(joinMemberRequest.getEmail())
-                .password(passwordEncoder.encode(joinMemberRequest.getPassword()))
+                .email(joinMemberRequestDto.getEmail())
+                .password(passwordEncoder.encode(joinMemberRequestDto.getPassword()))
                 .build();
 
         return memberRepository.save(member).getId();
     }
 
-    public JwtToken login(@Valid LoginMemberRequest loginMemberRequest) {
-        Member member = findByEmail(loginMemberRequest.getEmail());
+    public JwtToken login(@Valid LoginMemberRequestDto loginMemberRequestDto) {
+        Member member = findByEmail(loginMemberRequestDto.getEmail());
 
-        if (!passwordEncoder.matches(loginMemberRequest.getPassword(), member.getPassword()))
+        if (!passwordEncoder.matches(loginMemberRequestDto.getPassword(), member.getPassword()))
             throw new MemberPasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
 
         return jwtTokenProvider.genToken(member.toClaims(), member.getRoleType().getValue(), 60 * 60 * 1); //1시간 (임의설정)

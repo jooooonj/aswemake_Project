@@ -1,8 +1,8 @@
 package aswemake.project.domain.member.service;
 import aswemake.project.domain.member.entity.Member;
 import aswemake.project.domain.member.entity.MemberRoleType;
-import aswemake.project.domain.member.entity.request.JoinMemberRequest;
-import aswemake.project.domain.member.entity.request.LoginMemberRequest;
+import aswemake.project.domain.member.entity.request.JoinMemberRequestDto;
+import aswemake.project.domain.member.entity.request.LoginMemberRequestDto;
 import aswemake.project.domain.member.exception.MemberNotFoundException;
 import aswemake.project.domain.member.exception.MemberPasswordNotCorrectException;
 import aswemake.project.domain.member.repository.MemberRepository;
@@ -46,7 +46,7 @@ class MemberServiceTest {
     @DisplayName("join(회원가입) 성공")
     void join1() throws Exception {
         //given
-        JoinMemberRequest request = JoinMemberRequest.builder()
+        JoinMemberRequestDto request = JoinMemberRequestDto.builder()
                 .email("abcd@1234").password("123456789").build();
         Member member = mock(Member.class);
         given(member.getId()).willReturn(1L); //member의 id는 1로 설정
@@ -63,7 +63,7 @@ class MemberServiceTest {
     @DisplayName("login(로그인) 실패 - (계정이 존재하지 않는다.)")
     void login1() throws Exception {
         //given
-        LoginMemberRequest request = LoginMemberRequest.builder()
+        LoginMemberRequestDto request = LoginMemberRequestDto.builder()
                 .email("abcd@1234").password("123456789").build();
         Member member = mock(Member.class);
         given(memberRepository.findByEmail(request.getEmail())).willReturn(Optional.empty()); //값이 없는 경우
@@ -83,7 +83,7 @@ class MemberServiceTest {
     void login2() throws Exception {
         //given
         //request와 member의 패스워드가 틀리다.
-        LoginMemberRequest request = LoginMemberRequest.builder()
+        LoginMemberRequestDto request = LoginMemberRequestDto.builder()
                 .email("abcd@1234").password("87654321").build();
 
         Member member = Member.builder() //"abcd@1234 계정으로 찾은 member
@@ -121,7 +121,7 @@ class MemberServiceTest {
         Member member = mock(Member.class);
         Map memberToMap = Map.of(1L, "abcd@1234"); //member 정보
 
-        LoginMemberRequest request = LoginMemberRequest.builder()
+        LoginMemberRequestDto request = LoginMemberRequestDto.builder()
                 .email("abcd@1234").password("12345678").build();
 
         given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));

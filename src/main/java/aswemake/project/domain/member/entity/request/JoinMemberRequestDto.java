@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class JoinMemberRequest {
+public class JoinMemberRequestDto {
     @Pattern(regexp = ".*@.*", message = "이메일은 '@'를 반드시 포함해야 합니다.")
     private String email;
 
