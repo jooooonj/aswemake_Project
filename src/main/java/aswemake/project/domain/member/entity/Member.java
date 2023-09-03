@@ -21,6 +21,11 @@ public class Member extends BaseEntity {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role_type")
+    @Enumerated(EnumType.STRING)
+    private MemberRoleType roleType;
+
     public Map<String, Object> toClaims() {
         return Map.of(
                 "id", getId(),
