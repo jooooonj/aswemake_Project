@@ -22,7 +22,9 @@ repositories {
 }
 
 dependencies {
-	//lombok
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+
+    //lombok
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
 
