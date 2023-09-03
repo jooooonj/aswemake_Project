@@ -1,6 +1,7 @@
 package aswemake.project.domain.product.entity;
 
 import aswemake.project.base.baseEntity.BaseEntity;
+import aswemake.project.domain.product.entity.request.CreateProductRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,12 @@ public class Product extends BaseEntity {
     private String productName;
     @Column(name = "price", nullable = false)
     private int price;
+
+    public static Product create(CreateProductRequestDto createProductRequestDto){
+        return Product.builder()
+                .productName(createProductRequestDto.getProductName())
+                .price(createProductRequestDto.getPrice())
+                .build();
+    }
+
 }

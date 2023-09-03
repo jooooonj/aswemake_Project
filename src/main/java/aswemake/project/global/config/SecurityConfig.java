@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .securityMatcher("/api/**") // 아래의 모든 설정은 /api/** 경로에만 적용
                 .authorizeHttpRequests(
                         authorizeHttpRequests -> authorizeHttpRequests
-                                .requestMatchers(antMatcher("/api/member/**")).permitAll() // 로그인, 회원가입은 누구나 가능
+                                .requestMatchers(antMatcher("/api/v1/member/**")).permitAll() // 로그인, 회원가입은 누구나 가능
                                 .anyRequest().authenticated() // 나머지는 인증된 사용자만 가능
                 )
                 .cors().disable() // 타 도메인에서 API 호출 가능
