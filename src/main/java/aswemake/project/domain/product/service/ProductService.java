@@ -35,4 +35,10 @@ public class ProductService {
         product.modifyPrice(modifyProductPriceRequestDto.getPrice());
         return ProductResponseDto.of(product);
     }
+
+    @Transactional
+    public void delete(Long productId) {
+        productRepository.deleteById(productId);
+    }
+
 }
