@@ -44,6 +44,6 @@ public class MemberService {
         if (!passwordEncoder.matches(loginMemberRequest.getPassword(), member.getPassword()))
             throw new MemberPasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
 
-        return jwtTokenProvider.genToken(member.toClaims(), 60 * 60 * 1); //1시간 (임의설정)
+        return jwtTokenProvider.genToken(member.toClaims(), member.getRoleType().getValue(), 60 * 60 * 1); //1시간 (임의설정)
     }
 }

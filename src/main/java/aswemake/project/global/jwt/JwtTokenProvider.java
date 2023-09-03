@@ -33,25 +33,18 @@ public class JwtTokenProvider {
         return cachedSecretKey;
     }
 
-    public JwtToken genToken(Map<String, Object> claims, int seconds) { //저장할 정보와, 토큰 유효기간을 설정
+    public JwtToken genToken(Map<String, Object> claims,String roleType, int seconds) { //저장할 정보와, 토큰 유효기간을 설정
         long now = new Date().getTime();
         Date accessTokenExpiresIn = new Date(now + 1000L * seconds); //초단위로 설정할 수 있게끔 ex) 60 * 60 * 5 -> 5시간
-        Date refreshTokenExpiresIn = new Date(now + 1000L * seconds * 10); //엑세스 토큰 10배
         String accessToken = Jwts.builder()
                 .claim("body", Ut.json.toStr(claims))
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(getSecretKey(), SignatureAlgorithm.HS512)
                 .compact();
 
-        String refreshToken = Jwts.builder()
-                .setExpiration(refreshTokenExpiresIn)
-                .signWith(getSecretKey(), SignatureAlgorithm.HS512)
-                .compact();
-
         return JwtToken.builder()
-                .type("MEMBER")
+                .type(roleType)
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
                 .build();
     }
 
