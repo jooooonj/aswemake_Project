@@ -21,6 +21,10 @@ public class Product extends BaseEntity {
     @Column(name = "price", nullable = false)
     private int price;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_snapshot")
+    private ProductSnapshot productSnapshot;
+
     public static Product create(CreateProductRequestDto createProductRequestDto){
         return Product.builder()
                 .productName(createProductRequestDto.getProductName())
@@ -30,5 +34,11 @@ public class Product extends BaseEntity {
 
     public void modifyPrice(int price){
         this.price = price;
+    }
+
+    public void exchangeSnapshot(ProductSnapshot productSnapshot){
+        if(this.productSnapshot != null)
+            this.productSnapshot.expire();
+        this.productSnapshot = productSnapshot;
     }
 }
