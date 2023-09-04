@@ -51,7 +51,7 @@ class MemberControllerTest {
                 .email("abcd1234").password("123456789").build();
 
         MvcResult result = mockMvc.perform(
-                        post("/api/member/join")
+                        post("/api/v1/member/join")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(request))
                 )
@@ -70,7 +70,7 @@ class MemberControllerTest {
                 .email("abcd@1234").password("1234").build();
 
         MvcResult result = mockMvc.perform(
-                        post("/api/member/join")
+                        post("/api/v1/member/join")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(request))
                 )
@@ -90,7 +90,7 @@ class MemberControllerTest {
                 .email("abcd@1234").password("123456789").build();
 
         MvcResult result = mockMvc.perform(
-                        post("/api/member/join")
+                        post("/api/v1/member/join")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(request))
                 )
@@ -109,7 +109,7 @@ class MemberControllerTest {
                 .email("abcd1234").password("123456789").build();
 
         MvcResult result = mockMvc.perform(
-                        post("/api/member/login")
+                        post("/api/v1/member/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(request))
                 )
@@ -129,7 +129,7 @@ class MemberControllerTest {
                 .email("abcd@1234").password("1234").build();
 
         MvcResult result = mockMvc.perform(
-                        post("/api/member/login")
+                        post("/api/v1/member/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(request))
                 )
@@ -158,7 +158,7 @@ class MemberControllerTest {
         // When, then
         ResultActions result = mockMvc
                 .perform(
-                        post("/api/member/login")
+                        post("/api/v1/member/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(request))
                 )
