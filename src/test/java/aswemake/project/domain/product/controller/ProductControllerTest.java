@@ -20,7 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -108,5 +111,26 @@ class ProductControllerTest {
 
         //then
         verify(productService).delete(productId);
+    }
+
+    @Test
+    @DisplayName("특정 시점의 상품 가격 조회 API")
+    @WithMockUser(username = "admin@naver.com")
+    void getProductPriceAtSpecificTime() throws Exception {
+        //given
+        Long productId = 1L;
+        LocalDateTime timestamp = LocalDateTime.of(2022, 12, 25, 0, 0);
+
+        //when
+        ResultActions result = mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/products/price")
+                                .contentType(MediaType.APPLICATION_JSON)
+                .param("productId", String.valueOf(productId))
+                .param("timestamp", timestamp.toString()))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        //then
+        verify(productService).getProductPriceAtSpecificTime(productId, timestamp);
     }
 }
