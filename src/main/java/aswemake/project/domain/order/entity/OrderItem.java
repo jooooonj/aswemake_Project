@@ -24,4 +24,20 @@ public class OrderItem {
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
+
+    public int getOrderItemPrice(){
+        return quantity * product.getPrice();
+    }
+
+    public static OrderItem create(Product product, OrderItemRequestDto orderItemRequestDto){
+        return OrderItem
+                .builder()
+                .product(product)
+                .quantity(orderItemRequestDto.getQuantity())
+                .build();
+    }
+
+    public void connectOrder(Order order){
+        this.order = order;
+    }
 }

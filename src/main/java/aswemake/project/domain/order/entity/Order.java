@@ -31,4 +31,32 @@ public class Order extends BaseEntity {
 
     @Column(name = "total_price", nullable = false)
     private int totalPrice;
+
+    public static Order create(Member member, List<OrderItem> orderItems, CreateOrderRequestDto createOrderRequestDto) {
+        Order order = Order
+                .builder()
+                .member(member)
+                .deliveryFee(createOrderRequestDto.getDeliveryFee())
+                .build();
+
+        order.connectOrderItems(orderItems);
+        order.setTotalPrice();
+        return order;
+    }
+
+    public void connectOrderItems(List<OrderItem> orderItems){
+        this.orderItems = orderItems;
+        for (OrderItem orderItem : orderItems) {
+            orderItem.connectOrder(this);
+        }
+    }
+
+    private void setTotalPrice(){
+        int totalPriceTmp = 0;
+        for (OrderItem orderItem : getOrderItems()) {
+            totalPriceTmp += orderItem.getOrderItemPrice();
+        }
+        totalPriceTmp += getDeliveryFee();
+        this.totalPrice = totalPriceTmp;
+    }
 }
