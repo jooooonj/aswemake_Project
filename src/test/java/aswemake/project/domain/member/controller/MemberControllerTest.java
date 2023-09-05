@@ -38,7 +38,6 @@ class MemberControllerTest {
     protected MemberController memberController;
     @Autowired
     protected MockMvc mockMvc;
-
     @Autowired
     protected ObjectMapper objectMapper;
     @MockBean
@@ -98,7 +97,6 @@ class MemberControllerTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-//        memberService의 join 메서드가 실제로 실행되는지
         verify(memberService).join(any(JoinMemberRequestDto.class));
     }
 

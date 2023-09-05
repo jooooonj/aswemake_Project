@@ -12,7 +12,10 @@ public enum ErrorCode {
     NOT_ADMIN_ACCESS_DENIED(403, "NOT_ADMIN_ACCESS_DENIED", "관리자 외 접근 거부"),
 
     //PRODUCT
-    PRODUCT_NOT_FOUND(404, "PRODUCT_NOT_FOUND", "상품을 찾을 수 없습니다.");
+    PRODUCT_NOT_FOUND(404, "PRODUCT_NOT_FOUND", "상품을 찾을 수 없습니다."),
+
+    //ORDER
+    ORDER_NOT_FOUND(404, "ORDER_NOT_FOUND", "주문을 찾을 수 없습니다.");
 
     private final int status;
     private final String code;

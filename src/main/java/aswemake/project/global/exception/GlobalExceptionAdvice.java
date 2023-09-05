@@ -3,6 +3,7 @@ package aswemake.project.global.exception;
 import aswemake.project.domain.member.exception.MemberNotFoundException;
 import aswemake.project.domain.member.exception.MemberPasswordNotCorrectException;
 import aswemake.project.domain.member.exception.NotAdminAccessDeniedException;
+import aswemake.project.domain.order.exception.OrderNotFoundException;
 import aswemake.project.domain.product.exception.ProductNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(NotAdminAccessDeniedException.class)
     public ResponseEntity<ErrorResponse> NotAdminAccessDeniedExceptionHandler(NotAdminAccessDeniedException e) {
         ErrorCode errorCode = e.getErrorCode();
-        log.error("[exceptionHandle] ex", e);
+        log.error("[exceptionHandle] ex", e.getStackTrace());
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
         return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
@@ -50,14 +51,21 @@ public class GlobalExceptionAdvice {
         return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
 
+    //======order======
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ErrorResponse> OrderNotFoundExceptionHandler(OrderNotFoundException e){
+        ErrorCode errorCode = e.getErrorCode();
+        log.error("[exceptionHandler] ex", e);
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+        return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
+    }
+
     //Request
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> methodValidException(MethodArgumentNotValidException e, HttpServletRequest request){
-        log.error("[exceptionHandle] ex", e);
+    public ResponseEntity<ErrorResponse> methodValidExceptionHandler(MethodArgumentNotValidException e, HttpServletRequest request){
+        log.error("[exceptionHandler] ex", e);
         ErrorResponse errorResponse = new ErrorResponse(ErrorCode.REQUEST_VALID_FAIL.getCode()
                 ,e.getBindingResult().getFieldError().getDefaultMessage());
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
-
 }

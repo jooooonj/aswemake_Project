@@ -20,7 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +42,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 Map<String, Object> claims = jwtTokenProvider.getClaimsToMap(token);
                 String email = (String) claims.get("email");
 
-                Member member = memberService.findByEmail(email);
+                Member member = memberService.findMember(email);
                 forceAuthentication(member);
             }
         }
