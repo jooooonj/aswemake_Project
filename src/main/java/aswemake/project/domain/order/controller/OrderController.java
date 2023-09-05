@@ -22,4 +22,9 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 orderService.createOrder(user.getUsername(), createOrderRequestDto));
     }
+
+    @GetMapping("/{orderId}/price")
+    public ResponseEntity<Integer> getOrderPrice (@PathVariable("orderId") Long orderId){
+        return ResponseEntity.ok().body(orderService.getOrderPrice(orderId));
+    }
 }

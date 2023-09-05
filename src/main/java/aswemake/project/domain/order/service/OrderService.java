@@ -33,6 +33,14 @@ public class OrderService {
         return order.getId();
     }
 
+    public Integer getOrderPrice(Long orderId) {
+        Integer orderPrice = orderRepository.findOrderPriceByOrderId(orderId);
+        if(orderPrice == null)
+            throw new OrderNotFoundException("해당 주문은 존재하지 않습니다.");
+
+        return orderPrice;
+    }
+
     private List<OrderItem> createOrderItems(CreateOrderRequestDto createOrderRequestDto) {
         List<OrderItem> orderItems = new ArrayList<>();
 
