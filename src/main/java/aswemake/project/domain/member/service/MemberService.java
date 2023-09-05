@@ -22,7 +22,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public Member findByEmail(String email){
+    public Member findMember(String email){
         return memberRepository.findByEmail(email).orElseThrow(
                 () -> new MemberNotFoundException(email+"로 가입된 계정이 존재하지 않습니다.")
         );
@@ -39,7 +39,7 @@ public class MemberService {
     }
 
     public JwtToken login(@Valid LoginMemberRequestDto loginMemberRequestDto) {
-        Member member = findByEmail(loginMemberRequestDto.getEmail());
+        Member member = findMember(loginMemberRequestDto.getEmail());
 
         if (!passwordEncoder.matches(loginMemberRequestDto.getPassword(), member.getPassword()))
             throw new MemberPasswordNotCorrectException("비밀번호가 일치하지 않습니다.");

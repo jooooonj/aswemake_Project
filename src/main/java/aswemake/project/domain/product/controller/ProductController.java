@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<ProductResponseDto> delete(@AuthenticationPrincipal User user,
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal User user,
                                                      @PathVariable("productId") Long productId) {
         admValidator.checkAdmin(user.getUsername());
         productService.delete(productId);

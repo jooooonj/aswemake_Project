@@ -56,7 +56,7 @@ public class ProductService {
     public Integer getProductPriceAtSpecificTime(Long productId, LocalDateTime timestamp) {
         Integer productPriceAtSpecificTime = productSnapshotRepository.getProductPriceAtSpecificTime(productId, timestamp);
         if(productPriceAtSpecificTime == null)
-            throw new ProductNotFoundException(timestamp+" 시점에 존재하는 " + productId+"번 상품은 존재하지 않습니다.");
+            throw new ProductNotFoundException(timestamp+" 시점에 " + productId+"번 상품은 존재하지 않습니다.");
 
         return productPriceAtSpecificTime;
     }
