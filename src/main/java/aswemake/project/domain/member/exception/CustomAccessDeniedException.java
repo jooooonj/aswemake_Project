@@ -3,12 +3,9 @@ package aswemake.project.domain.member.exception;
 import aswemake.project.global.exception.BaseException;
 import aswemake.project.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
-
-public class NotAdminAccessDeniedException extends BaseException {
-
-    private static final ErrorCode code = ErrorCode.NOT_ADMIN_ACCESS_DENIED;
-
-    public NotAdminAccessDeniedException(String message) {
+public class CustomAccessDeniedException extends BaseException {
+    private static final ErrorCode code = ErrorCode.ACCESS_DENIED;
+    public CustomAccessDeniedException(String message) {
         super(code, HttpStatus.FORBIDDEN, message);
     }
 }
