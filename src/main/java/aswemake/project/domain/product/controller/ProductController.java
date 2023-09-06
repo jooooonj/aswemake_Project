@@ -1,6 +1,6 @@
 package aswemake.project.domain.product.controller;
 
-import aswemake.project.domain.member.validate.AdmValidator;
+import aswemake.project.global.authentication.AuthenticationValidator;
 import aswemake.project.domain.product.entity.request.CreateProductRequestDto;
 import aswemake.project.domain.product.entity.request.ModifyProductPriceRequestDto;
 import aswemake.project.domain.product.entity.response.ProductResponseDto;
@@ -20,12 +20,12 @@ import java.time.LocalDateTime;
 @RestController
 public class ProductController {
     private final ProductService productService;
-    private final AdmValidator admValidator;
+    private final AuthenticationValidator authenticationValidator;
 
     @PostMapping
     public ResponseEntity<ProductResponseDto> register(@AuthenticationPrincipal User user,
                        @Valid @RequestBody CreateProductRequestDto createProductRequestDto) {
-        admValidator.checkAdmin(user.getUsername());
+        authenticationValidator.checkMart(user.getUsername());
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.register(createProductRequestDto));
     }
 
@@ -33,14 +33,14 @@ public class ProductController {
     public ResponseEntity<ProductResponseDto> modify(@AuthenticationPrincipal User user,
                                                      @Valid @RequestBody ModifyProductPriceRequestDto modifyProductPriceRequestDto,
                                                      @PathVariable("productId") Long productId) {
-        admValidator.checkAdmin(user.getUsername());
+        authenticationValidator.checkMart(user.getUsername());
         return ResponseEntity.ok(productService.modify(productId, modifyProductPriceRequestDto));
     }
 
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal User user,
                                                      @PathVariable("productId") Long productId) {
-        admValidator.checkAdmin(user.getUsername());
+        authenticationValidator.checkMart(user.getUsername());
         productService.delete(productId);
         return ResponseEntity.noContent().build();
     }
@@ -55,6 +55,5 @@ public class ProductController {
 
         return ResponseEntity.ok(productService.getProductPriceAtSpecificTime(productId, timestamp));
     }
-
 }
 
