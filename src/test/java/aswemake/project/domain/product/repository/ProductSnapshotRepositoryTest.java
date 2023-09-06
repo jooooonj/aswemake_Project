@@ -59,4 +59,40 @@ class ProductSnapshotRepositoryTest {
         Assertions.assertThat(price2).isNotNull();
         Assertions.assertThat(price2).isEqualTo(snapshot2.getPrice());
     }
+
+    @Test
+    @DisplayName("getProductPriceAtSpecificTime - 경계값 테스트")
+    void getProductPriceAtSpecificTime_bridge1() throws Exception {
+        //given
+        Long productId = 1L;
+        LocalDateTime fromDate = LocalDateTime.of(2012, 12, 25, 0, 0, 0,0);
+        LocalDateTime toDate = LocalDateTime.of(2012, 12, 30, 0, 0, 0,0);
+        LocalDateTime date = LocalDateTime.of(2012, 12, 27, 0, 0, 0,0);
+
+        ProductSnapshot snapshot = productSnapshotRepository.save(ProductSnapshot.builder()
+                .productId(1L)
+                .productName("테스트용1")
+                .price(5000)
+                .fromDate(fromDate)
+                .toDate(toDate)
+                .build());
+
+        //when,then
+        Integer price1 = productSnapshotRepository.getProductPriceAtSpecificTime(productId, fromDate);
+        Integer price2 = productSnapshotRepository.getProductPriceAtSpecificTime(productId, toDate);
+        Integer price3 = productSnapshotRepository.getProductPriceAtSpecificTime(productId, date);
+
+        //then
+        log.info("query : {} ", "select ps.price from ProductSnapshot as ps " +
+                "where ps.productId = :productId " +
+                "and :date >= ps.fromDate and :date < ps.toDate");
+
+        Assertions.assertThat(price1).isNotNull();
+        Assertions.assertThat(price1).isEqualTo(snapshot.getPrice());
+
+        Assertions.assertThat(price2).isNull();
+
+        Assertions.assertThat(price3).isNotNull();
+        Assertions.assertThat(price3).isEqualTo(snapshot.getPrice());
+    }
 }

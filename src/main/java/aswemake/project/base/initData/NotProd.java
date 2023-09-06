@@ -9,7 +9,10 @@ import aswemake.project.domain.member.repository.MemberRepository;
 import aswemake.project.domain.order.entity.request.CreateOrderRequestDto;
 import aswemake.project.domain.order.entity.request.OrderItemRequestDto;
 import aswemake.project.domain.order.service.OrderService;
+import aswemake.project.domain.product.entity.ProductSnapshot;
 import aswemake.project.domain.product.entity.request.CreateProductRequestDto;
+import aswemake.project.domain.product.entity.response.ProductResponseDto;
+import aswemake.project.domain.product.repository.ProductSnapshotRepository;
 import aswemake.project.domain.product.service.ProductService;
 import aswemake.project.global.config.AppConfig;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +22,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -30,6 +34,7 @@ public class NotProd {
             PasswordEncoder passwordEncoder,
             MemberRepository memberRepository,
             ProductService productService,
+            ProductSnapshotRepository productSnapshotRepository,
             OrderService orderService,
             DiscountCouponRepository discountCouponRepository
     ) {
@@ -53,11 +58,24 @@ public class NotProd {
             //상품 생성
             CreateProductRequestDto createProductRequestDto1 =
                     new CreateProductRequestDto("테스트 상품 1", 10000);
-            productService.register(createProductRequestDto1);
+            ProductResponseDto product = productService.register(createProductRequestDto1);
 
             CreateProductRequestDto createProductRequestDto2 =
                     new CreateProductRequestDto("테스트 상품 2", 20000);
             productService.register(createProductRequestDto2);
+
+            //테스트 상품 1에 대한 상품 스냅샷 생성 (2012.12.25 ~ 2012.12.30)
+            LocalDateTime fromDate = LocalDateTime.of(2012, 12, 25, 0, 0, 0,0);
+            LocalDateTime toDate = LocalDateTime.of(2012, 12, 30, 0, 0, 0,0);
+
+            productSnapshotRepository.save(ProductSnapshot.builder()
+                    .productId(product.getId())
+                    .fromDate(fromDate)
+                    .toDate(toDate)
+                    .price(500000)
+                    .productName(product.getProductName())
+                    .build());
+
 
             //주문 생성
             List<OrderItemRequestDto> orderItemRequestDtoList1 =
