@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class OrderItemTest {
     @Test
-    @DisplayName("주문 목록의 금액을 계산한다. ")
+    @DisplayName("주문 목록의 금액을 계산한다.")
     void getOrderItemPrice() {
         //given
         Product product = Product.builder().price(5000).build();
@@ -18,6 +18,7 @@ class OrderItemTest {
                 .builder()
                 .product(product)
                 .quantity(5)
+                .orderItemPrice(product.getPrice() * 5)
                 .build();
 
         //when
