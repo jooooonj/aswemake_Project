@@ -1,4 +1,8 @@
 package aswemake.project.base.initData;
+import aswemake.project.domain.coupon.entity.FixedDiscountCoupon;
+import aswemake.project.domain.coupon.entity.PercentageDiscountCoupon;
+import aswemake.project.domain.coupon.entity.scopeType.CouponApplyScope;
+import aswemake.project.domain.coupon.repository.DiscountCouponRepository;
 import aswemake.project.domain.member.entity.Member;
 import aswemake.project.domain.member.entity.MemberRoleType;
 import aswemake.project.domain.member.repository.MemberRepository;
@@ -26,7 +30,8 @@ public class NotProd {
             PasswordEncoder passwordEncoder,
             MemberRepository memberRepository,
             ProductService productService,
-            OrderService orderService
+            OrderService orderService,
+            DiscountCouponRepository discountCouponRepository
     ) {
         return args -> {
             //마트관리자
@@ -64,6 +69,16 @@ public class NotProd {
                     List.of(new OrderItemRequestDto(1L, 2), new OrderItemRequestDto(2L, 10));
             CreateOrderRequestDto createOrderRequestDto2 = new CreateOrderRequestDto(orderItemRequestDtoList2, 5000);
             orderService.createOrder(member.getEmail(), createOrderRequestDto2);
+
+            //쿠폰생성
+            discountCouponRepository.save(
+                        FixedDiscountCoupon.createStub(20000, CouponApplyScope.ORDER_ALL, "2만원_고정할인_전체주문"));
+            discountCouponRepository.save(
+                    FixedDiscountCoupon.createStub(20000, CouponApplyScope.SPECIFIC_PRODUCT, "2만원_고정할인_특정상품"));
+            discountCouponRepository.save(
+                    PercentageDiscountCoupon.createStub(10, CouponApplyScope.ORDER_ALL, "10퍼센트_비율할인_전체주문"));
+            discountCouponRepository.save(
+                    PercentageDiscountCoupon.createStub(10, CouponApplyScope.SPECIFIC_PRODUCT, "10퍼센트_비율할인_특정상품"));
         };
     }
 }
