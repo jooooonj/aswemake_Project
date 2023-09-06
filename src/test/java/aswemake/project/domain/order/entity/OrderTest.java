@@ -52,4 +52,23 @@ class OrderTest {
         //10000 * 5 + 3000
         Assertions.assertThat(order.getTotalPrice()).isEqualTo(53000);
     }
+
+    @Test
+    @DisplayName("배송비를 제외한 주문 금액을 반환한다.")
+    void getTotalPriceWithoutDeliveryFee() {
+        //given
+        Order order = Order.builder()
+                .totalPrice(50000)
+                .deliveryFee(10000)
+                .build();
+
+        //when
+        int totalPriceWithoutDeliveryFee = order.getTotalPriceWithoutDeliveryFee();
+
+        //then
+        Assertions.assertThat(totalPriceWithoutDeliveryFee).isEqualTo(order.getTotalPrice() - order.getDeliveryFee());
+
+        //50000 - 10000
+        Assertions.assertThat(totalPriceWithoutDeliveryFee).isEqualTo(40000);
+    }
 }

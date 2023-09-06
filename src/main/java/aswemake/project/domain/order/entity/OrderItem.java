@@ -1,5 +1,6 @@
 package aswemake.project.domain.order.entity;
 
+import aswemake.project.domain.coupon.entity.DiscountCoupon;
 import aswemake.project.domain.order.entity.request.OrderItemRequestDto;
 import aswemake.project.domain.product.entity.Product;
 import jakarta.persistence.*;
@@ -25,15 +26,19 @@ public class OrderItem {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    public int getOrderItemPrice(){
-        return quantity * product.getPrice();
-    }
+    @Column(name = "order_item_price", nullable = false)
+    private int orderItemPrice;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_id")
+    private DiscountCoupon coupon; //결제 완료 후 적용
 
     public static OrderItem create(Product product, OrderItemRequestDto orderItemRequestDto){
         return OrderItem
                 .builder()
                 .product(product)
                 .quantity(orderItemRequestDto.getQuantity())
+                .orderItemPrice(product.getPrice() * orderItemRequestDto.getQuantity())
                 .build();
     }
 

@@ -1,8 +1,9 @@
 package aswemake.project.global.exception;
 
+import aswemake.project.domain.coupon.exception.CouponNotFoundException;
 import aswemake.project.domain.member.exception.MemberNotFoundException;
 import aswemake.project.domain.member.exception.MemberPasswordNotCorrectException;
-import aswemake.project.domain.member.exception.NotAdminAccessDeniedException;
+import aswemake.project.domain.member.exception.CustomAccessDeniedException;
 import aswemake.project.domain.order.exception.OrderNotFoundException;
 import aswemake.project.domain.product.exception.ProductNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,8 +35,8 @@ public class GlobalExceptionAdvice {
         return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
 
-    @ExceptionHandler(NotAdminAccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> NotAdminAccessDeniedExceptionHandler(NotAdminAccessDeniedException e) {
+    @ExceptionHandler(CustomAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> CustomAccessDeniedExceptionHandler(CustomAccessDeniedException e) {
         ErrorCode errorCode = e.getErrorCode();
         log.error("[exceptionHandle] ex", e.getStackTrace());
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
@@ -54,6 +55,15 @@ public class GlobalExceptionAdvice {
     //======order======
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponse> OrderNotFoundExceptionHandler(OrderNotFoundException e){
+        ErrorCode errorCode = e.getErrorCode();
+        log.error("[exceptionHandler] ex", e);
+        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
+        return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
+    }
+
+    //======coupon======
+    @ExceptionHandler(CouponNotFoundException.class)
+    public ResponseEntity<ErrorResponse> CouponNotFoundExceptionHandler(CouponNotFoundException e){
         ErrorCode errorCode = e.getErrorCode();
         log.error("[exceptionHandler] ex", e);
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());

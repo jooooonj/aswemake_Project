@@ -1,6 +1,6 @@
 package aswemake.project.domain.product.controller;
 
-import aswemake.project.domain.member.validate.AdmValidator;
+import aswemake.project.global.authentication.AuthenticationValidator;
 import aswemake.project.domain.product.entity.request.CreateProductRequestDto;
 import aswemake.project.domain.product.entity.request.ModifyProductPriceRequestDto;
 import aswemake.project.domain.product.service.ProductService;
@@ -44,7 +44,7 @@ class ProductControllerTest {
     @MockBean
     protected ProductService productService;
     @MockBean
-    protected AdmValidator admValidator;
+    protected AuthenticationValidator authenticationValidator;
 
     @Test
     @DisplayName("상품 생성 API")
