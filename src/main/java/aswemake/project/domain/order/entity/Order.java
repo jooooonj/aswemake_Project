@@ -1,6 +1,7 @@
 package aswemake.project.domain.order.entity;
 
 import aswemake.project.base.baseEntity.BaseEntity;
+import aswemake.project.domain.coupon.entity.DiscountCoupon;
 import aswemake.project.domain.member.entity.Member;
 import aswemake.project.domain.order.entity.request.CreateOrderRequestDto;
 import jakarta.persistence.*;
@@ -22,6 +23,10 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_id")
+    private DiscountCoupon coupon; //결제 완료 후 적용
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -49,6 +54,10 @@ public class Order extends BaseEntity {
         for (OrderItem orderItem : orderItems) {
             orderItem.connectOrder(this);
         }
+    }
+
+    public int getTotalPriceWithoutDeliveryFee(){
+        return getTotalPrice() - getDeliveryFee();
     }
 
     private void setTotalPrice(){

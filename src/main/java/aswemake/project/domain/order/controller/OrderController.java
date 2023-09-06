@@ -27,4 +27,13 @@ public class OrderController {
     public ResponseEntity<Integer> getOrderPrice (@PathVariable("orderId") Long orderId){
         return ResponseEntity.ok().body(orderService.getOrderPrice(orderId));
     }
+
+    @PostMapping("/{orderId}/calculate-paymentPrice")
+    public ResponseEntity<Integer> calculatePaymentPrice(
+                                        @PathVariable("orderId") Long orderId,
+                                        @RequestParam(required = false) String couponCode,
+                                        @RequestParam(required = false) Long orderItemId) {
+        return ResponseEntity.ok().body(orderService.calculatePaymentPrice(orderId, orderItemId, couponCode));
+    }
+
 }
