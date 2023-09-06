@@ -80,4 +80,101 @@ class OrderControllerTest {
         resultAction.andDo(print());
         verify(orderService).getOrderPrice(orderId);
     }
+
+    @Test
+    @DisplayName("결제금액 조회 API (쿠폰 X)")
+    @WithMockUser(username = "member@naver.com")
+    void calculatePaymentPrice_NOT_COUPON() throws Exception {
+        //given
+        Long orderId = 1L;
+
+        //when
+        ResultActions resultAction = mockMvc.perform(
+                        post("/api/v1/orders/" + orderId +"/calculate-paymentPrice"))
+                .andExpect(status().isOk());
+
+        //then
+        resultAction.andDo(print());
+        verify(orderService).calculatePaymentPrice(orderId, null, null);
+    }
+
+    @Test
+    @DisplayName("결제금액 조회 API (쿠폰 - 2만원_고정할인_전체주문)")
+    @WithMockUser(username = "member@naver.com")
+    void calculatePaymentPrice_FIXED_COUPON1() throws Exception {
+        //given
+        Long orderId = 1L;
+        String couponCode = "2만원_고정할인_전체주문";
+
+        //when
+        ResultActions resultAction = mockMvc.perform(
+                        post("/api/v1/orders/" + orderId +"/calculate-paymentPrice")
+                                .param("couponCode", couponCode))
+                .andExpect(status().isOk());
+
+        //then
+        resultAction.andDo(print());
+        verify(orderService).calculatePaymentPrice(orderId, null, couponCode);
+    }
+
+    @Test
+    @DisplayName("결제금액 조회 API (쿠폰 - 2만원_고정할인_특정상품)")
+    @WithMockUser(username = "member@naver.com")
+    void calculatePaymentPrice_FIXED_COUPON2() throws Exception {
+        //given
+        Long orderId = 1L;
+        String couponCode = "2만원_고정할인_전체주문";
+        Long orderItemId = 1L;
+
+        //when
+        ResultActions resultAction = mockMvc.perform(
+                        post("/api/v1/orders/" + orderId +"/calculate-paymentPrice")
+                                .param("couponCode", couponCode)
+                                .param("orderItemId", String.valueOf(orderItemId)))
+                .andExpect(status().isOk());
+
+        //then
+        resultAction.andDo(print());
+        verify(orderService).calculatePaymentPrice(orderId, orderItemId, couponCode);
+    }
+
+    @Test
+    @DisplayName("결제금액 조회 API (쿠폰 - 10퍼센트_비율할인_전체주문)")
+    @WithMockUser(username = "member@naver.com")
+    void calculatePaymentPrice_PERCENT_COUPON1() throws Exception {
+        //given
+        Long orderId = 1L;
+        String couponCode = "10퍼센트_비율할인_전체주문";
+
+        //when
+        ResultActions resultAction = mockMvc.perform(
+                        post("/api/v1/orders/" + orderId +"/calculate-paymentPrice")
+                                .param("couponCode", couponCode))
+                .andExpect(status().isOk());
+
+        //then
+        resultAction.andDo(print());
+        verify(orderService).calculatePaymentPrice(orderId, null, couponCode);
+    }
+
+    @Test
+    @DisplayName("결제금액 조회 API (쿠폰 - 10퍼센트_비율할인_특정상품)")
+    @WithMockUser(username = "member@naver.com")
+    void calculatePaymentPrice_PERCENT_COUPON2() throws Exception {
+        //given
+        Long orderId = 1L;
+        String couponCode = "10퍼센트_비율할인_특정상품";
+        Long orderItemId = 1L;
+
+        //when
+        ResultActions resultAction = mockMvc.perform(
+                        post("/api/v1/orders/" + orderId +"/calculate-paymentPrice")
+                                .param("couponCode", couponCode)
+                                .param("orderItemId", String.valueOf(orderItemId)))
+                .andExpect(status().isOk());
+
+        //then
+        resultAction.andDo(print());
+        verify(orderService).calculatePaymentPrice(orderId, orderItemId, couponCode);
+    }
 }
