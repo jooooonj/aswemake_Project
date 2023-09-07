@@ -1,6 +1,7 @@
 package aswemake.project.domain.member.service;
 
 import aswemake.project.domain.member.entity.Member;
+import aswemake.project.domain.member.entity.MemberRoleType;
 import aswemake.project.domain.member.entity.request.JoinMemberRequestDto;
 import aswemake.project.domain.member.entity.request.LoginMemberRequestDto;
 import aswemake.project.domain.member.exception.MemberNotFoundException;
@@ -33,6 +34,7 @@ public class MemberService {
         Member member = Member.builder()
                 .email(joinMemberRequestDto.getEmail())
                 .password(passwordEncoder.encode(joinMemberRequestDto.getPassword()))
+                .roleType(MemberRoleType.MEMBER)
                 .build();
 
         return memberRepository.save(member).getId();

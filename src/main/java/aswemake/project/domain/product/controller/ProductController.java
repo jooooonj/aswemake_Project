@@ -48,7 +48,7 @@ public class ProductController {
     @GetMapping("/price")
     public ResponseEntity<Integer> getProductPriceAtSpecificTime(
             @RequestParam("productId") Long productId,
-            @RequestParam("timestamp") LocalDateTime timestamp) {
+            @RequestParam(value = "timestamp", required = false) LocalDateTime timestamp) {
 
         if(timestamp == null)
             timestamp = LocalDateTime.now();

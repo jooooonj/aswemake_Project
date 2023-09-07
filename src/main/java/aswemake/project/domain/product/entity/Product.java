@@ -22,7 +22,7 @@ public class Product extends BaseEntity {
     private int price;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_snapshot")
+    @JoinColumn(name = "product_snapshot_id")
     private ProductSnapshot productSnapshot;
 
     public static Product create(CreateProductRequestDto createProductRequestDto){
