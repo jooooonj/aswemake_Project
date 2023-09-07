@@ -2,6 +2,7 @@ package aswemake.project.domain.order.entity;
 
 import aswemake.project.domain.order.entity.request.OrderItemRequestDto;
 import aswemake.project.domain.product.entity.Product;
+import aswemake.project.domain.product.entity.ProductSnapshot;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ class OrderItemTest {
     @DisplayName("주문 목록의 금액을 계산한다.")
     void getOrderItemPrice() {
         //given
-        Product product = Product.builder().price(5000).build();
+        ProductSnapshot product = ProductSnapshot.builder().price(5000).build();
         OrderItem orderItem = OrderItem
                 .builder()
                 .product(product)
@@ -33,14 +34,15 @@ class OrderItemTest {
     @DisplayName("주문 목록을 생성한다.")
     void create() {
         //given
-        Product product = Product.builder().productName("테스트 상품").price(5000).build();
+        ProductSnapshot productSnapshot = ProductSnapshot.builder().price(5000).build();
+        Product product = Product.builder().productName("테스트 상품").productSnapshot(productSnapshot).price(5000).build();
         OrderItemRequestDto orderItemRequestDto = new OrderItemRequestDto(1L, 5);
 
         //when
         OrderItem orderItem = OrderItem.create(product, orderItemRequestDto);
 
         //then
-        Assertions.assertThat(orderItem.getProduct()).isEqualTo(product);
+        Assertions.assertThat(orderItem.getProduct()).isEqualTo(productSnapshot);
         Assertions.assertThat(orderItem.getQuantity()).isEqualTo(orderItemRequestDto.getQuantity());
     }
 

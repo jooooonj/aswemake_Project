@@ -4,14 +4,15 @@ import aswemake.project.domain.member.entity.Member;
 import aswemake.project.domain.member.repository.MemberRepository;
 import aswemake.project.domain.order.entity.Order;
 import aswemake.project.domain.order.entity.OrderItem;
-import aswemake.project.domain.product.entity.Product;
-import aswemake.project.domain.product.repository.ProductRepository;
+import aswemake.project.domain.product.entity.ProductSnapshot;
+import aswemake.project.domain.product.repository.ProductSnapshotRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @DataJpaTest
@@ -21,7 +22,7 @@ class OrderRepositoryTest {
     @Autowired
     protected MemberRepository memberRepository;
     @Autowired
-    protected ProductRepository productRepository;
+    protected ProductSnapshotRepository productSnapshotRepository;
 
     @Test
     @DisplayName("findOrderPriceByOrderId - 특정 주문에 대한 총금액을 조회한다.")
@@ -50,10 +51,13 @@ class OrderRepositoryTest {
         int quantity = 5;
         Long orderItemId = 1L;
         Member member = memberRepository.save(Member.builder().email("member@naver.com").password("1234").build());
-        Product product = productRepository.save(Product.builder()
+        ProductSnapshot product = productSnapshotRepository.save(ProductSnapshot.builder()
                 .id(1L)
                 .productName("테스트 상품")
                 .price(10000)
+                .productId(1L)
+                .fromDate(LocalDateTime.now())
+                .toDate(LocalDateTime.now().plusDays(1))
                 .build());
         OrderItem orderItem = OrderItem.builder()
                 .product(product)
@@ -74,5 +78,6 @@ class OrderRepositoryTest {
         //then
         Assertions.assertThat(findOrderItem.getQuantity()).isEqualTo(quantity);
         Assertions.assertThat(findOrderItem.getOrderItemPrice()).isEqualTo(product.getPrice() * quantity);
+        Assertions.assertThat(findOrderItem.getOrder().getId()).isEqualTo(savedorder.getId());
     }
 }

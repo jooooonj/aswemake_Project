@@ -3,6 +3,7 @@ package aswemake.project.domain.order.entity;
 import aswemake.project.domain.coupon.entity.DiscountCoupon;
 import aswemake.project.domain.order.entity.request.OrderItemRequestDto;
 import aswemake.project.domain.product.entity.Product;
+import aswemake.project.domain.product.entity.ProductSnapshot;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +22,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private ProductSnapshot product;
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
@@ -36,7 +37,7 @@ public class OrderItem {
     public static OrderItem create(Product product, OrderItemRequestDto orderItemRequestDto){
         return OrderItem
                 .builder()
-                .product(product)
+                .product(product.getProductSnapshot())
                 .quantity(orderItemRequestDto.getQuantity())
                 .orderItemPrice(product.getPrice() * orderItemRequestDto.getQuantity())
                 .build();
