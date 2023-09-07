@@ -38,7 +38,7 @@ public class Product extends BaseEntity {
 
     public void exchangeSnapshot(ProductSnapshot productSnapshot){
         if(this.productSnapshot != null)
-            this.productSnapshot.expire();
+            this.productSnapshot.expire(productSnapshot.getFromDate());
         this.productSnapshot = productSnapshot;
     }
 }

@@ -31,7 +31,7 @@ public class ProductSnapshot {
     public static ProductSnapshot create(Product product){
         return ProductSnapshot.builder()
                 .productId(product.getId())
-                .fromDate(product.getModifiedDate()) //마지막으로 수정된 날짜
+                .fromDate(LocalDateTime.now()) //마지막으로 수정된 날짜
                 .toDate(LocalDateTime.now().plusYears(100)) //임시 마감기한 (무제한)
                 .productName(product.getProductName())
                 .price(product.getPrice())
@@ -39,7 +39,7 @@ public class ProductSnapshot {
     }
 
     //기간 만료 (상품 가격 수정)
-    public void expire(){
-        this.toDate = LocalDateTime.now();
+    public void expire(LocalDateTime dateTime){
+        this.toDate = dateTime;
     }
 }
