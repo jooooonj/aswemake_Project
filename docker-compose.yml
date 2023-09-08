@@ -1,0 +1,40 @@
+version: "3"
+services:
+  mysql_1:
+    image: mysql:5.7
+    container_name: ${MYSQL_CONTAINER_NAME}
+    environment: # 환경 설정
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    command:
+      - --character-set-server=utf8mb4  # 인코딩
+      - --collation-server=utf8mb4_unicode_ci
+    ports: #port 지정
+      - 13306:3306
+    networks:
+      - custom_network
+  project:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always #컨테이너 재실행
+    container_name: project
+    depends_on:
+      - ${MYSQL_CONTAINER_NAME}
+    ports:
+      - 8080:8080
+    networks:
+      - custom_network
+    environment:
+      - DATABASE_HOST=${MYSQL_CONTAINER_NAME}
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=${MYSQL_DATABASE}
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - MART_ADMIN_EMAIL=${MART_ADMIN_EMAIL}
+      - MART_ADMIN_PASSWORD=${MART_ADMIN_PASSWORD}
+networks:
+  custom_network:
+
