@@ -10,13 +10,20 @@
 <br></br>
 
 ### 환경변수
-${DATABASE_HOST} : 데이터베이스 호스트 주소 
-${DATABASE_PORT} : 데이터베이스 포트번호
+${DATABASE_HOST} : 데이터베이스 호스트 주소
+
+${DATABASE_PORT} : 데이터베이스 포트 번호
+
 ${DATABASE_NAME} : 데이터베이스 이름
+
 ${DATABASE_USERNAME} : 데이터베이스 사용자 이름
+
 ${DATABASE_PASSWORD} : 데이트베이스 비밀번호
+
 ${JWT_SECRET_KEY} : JWT 토큰 서명에 사용되는 비밀 키
+
 ${MART_ADMIN_EMAIL} : 관리자 계정 (이메일 형식 @포함)
+
 ${MART_ADMIN_PASSWORD} : 관리자 계정 비밀번호 (8자리 이상)
 
 <br></br>
