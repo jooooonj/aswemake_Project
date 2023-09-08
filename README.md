@@ -26,15 +26,6 @@ USE
 ${DATABASE_NAME};
 ```
 
-#### #2 Docker
-1. Git clone (https://github.com/jooooonj/aswemake_Project.git)
-2. application-secret.yml.default -> application-secret.yml 파일명 변경
-3. 프로젝트 하위 경로 .env 파일 생성 후 양식에 맞게 기입
-4. jar 빌드 (./gradlew clean build)
-5. 도커 실행 (docker compose up -d)
-
----
-
 #### 📌 애플리케이션 환경 변수 (application-secret.yml)
 
 ${DATABASE_HOST} : 데이터베이스 호스트 주소
@@ -54,6 +45,14 @@ ${MART_ADMIN_EMAIL} : 관리자 계정 (이메일 형식 @포함)
 ${MART_ADMIN_PASSWORD} : 관리자 계정 비밀번호 (8자리 이상)
 
 <br></br>
+
+#### #2 Docker
+1. Git clone (https://github.com/jooooonj/aswemake_Project.git)
+2. application-secret.yml.default -> application-secret.yml 파일명 변경
+3. 프로젝트 하위 경로 .env 파일 생성 후 양식에 맞게 기입
+4. jar 빌드 (./gradlew clean build)
+5. 도커 실행 (docker compose up -d)
+
 #### 📌 .env 파일 양식
 MYSQL_CONTAINER_NAME={사용자지정 - MYSQL 컨테이너 이름}
 
