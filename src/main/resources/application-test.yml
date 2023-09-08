@@ -7,3 +7,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+jwt:
+  secretKey: alsfnlasfnlsanflkasnflsanlfnaslfasf
+
+APP:
+  ADMIN:
+    EMAIL: admin@naver.com
+    PASSWORD: 12345678
