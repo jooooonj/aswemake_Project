@@ -38,7 +38,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(CustomAccessDeniedException.class)
     public ResponseEntity<ErrorResponse> CustomAccessDeniedExceptionHandler(CustomAccessDeniedException e) {
         ErrorCode errorCode = e.getErrorCode();
-        log.error("[exceptionHandle] ex", e.getStackTrace());
+        log.error("[exceptionHandle] ex", e);
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), e.getMessage());
         return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }

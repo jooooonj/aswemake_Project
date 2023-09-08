@@ -7,6 +7,7 @@ import aswemake.project.domain.member.entity.request.LoginMemberRequestDto;
 import aswemake.project.domain.member.exception.MemberNotFoundException;
 import aswemake.project.domain.member.exception.MemberPasswordNotCorrectException;
 import aswemake.project.domain.member.repository.MemberRepository;
+import aswemake.project.global.config.AppConfig;
 import aswemake.project.global.jwt.JwtToken;
 import aswemake.project.global.jwt.JwtTokenProvider;
 import jakarta.validation.Valid;
@@ -31,6 +32,8 @@ public class MemberService {
 
     @Transactional
     public Long join(@Valid JoinMemberRequestDto joinMemberRequestDto){
+        checkAdminEmail(joinMemberRequestDto);
+
         Member member = Member.builder()
                 .email(joinMemberRequestDto.getEmail())
                 .password(passwordEncoder.encode(joinMemberRequestDto.getPassword()))
@@ -47,5 +50,10 @@ public class MemberService {
             throw new MemberPasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
 
         return jwtTokenProvider.genToken(member.toClaims(), member.getRoleType().getValue(), 60 * 60 * 1); //1시간 (임의설정)
+    }
+
+    private void checkAdminEmail(JoinMemberRequestDto joinMemberRequestDto) {
+        if(joinMemberRequestDto.getEmail().equals(AppConfig.getAdminEmail()))
+            throw new IllegalArgumentException("이 계정은 사용할 수 없는 계정입니다. (관리자 계정)");
     }
 }
