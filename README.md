@@ -1,8 +1,11 @@
 # 👩‍💻 지원자 : 이재준
 #### 개발 환경
-JAVA 17
-Spring Boot 3.x.
-MySQL
+- JAVA 17
+- Spring Boot 3.x.
+- MySQL
+
+#### Git
+- 요구사항을 issue에 기록하고 pr 단위로 작업을 진행했습니다.
 
 # 📌 애플리케이션의 실행 방법
 
