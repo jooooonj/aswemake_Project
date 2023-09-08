@@ -9,7 +9,7 @@
 
 # 📌 애플리케이션의 실행 방법
 
-#### #1 Local
+## #1 Local
 1. Git clone (https://github.com/jooooonj/aswemake_Project.git)
 2. application-secret.yml.default -> application-secret.yml 파일명 변경
 3. application-secret.yml 환경변수 직접 기입
@@ -46,7 +46,7 @@ ${MART_ADMIN_PASSWORD} : 관리자 계정 비밀번호 (8자리 이상)
 
 <br></br>
 
-#### #2 Docker
+## #2 Docker
 1. Git clone (https://github.com/jooooonj/aswemake_Project.git)
 2. application-secret.yml.default -> application-secret.yml 파일명 변경
 3. 프로젝트 하위 경로 .env 파일 생성 후 양식에 맞게 기입
