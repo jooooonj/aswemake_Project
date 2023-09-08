@@ -13,7 +13,18 @@
 1. Git clone (https://github.com/jooooonj/aswemake_Project.git)
 2. application-secret.yml.default -> application-secret.yml 파일명 변경
 3. application-secret.yml 환경변수 직접 기입
-4. 실행
+4. 로컬 MySQL 접속 후 데이터베이스 생성
+5. 실행
+
+- 데이터베이스 생성 SQL
+```sql
+DROP
+DATABASE IF EXISTS ${DATABASE_NAME};
+CREATE
+DATABASE ${DATABASE_NAME};
+USE
+${DATABASE_NAME};
+```
 
 #### #2 Docker
 1. Git clone (https://github.com/jooooonj/aswemake_Project.git)
